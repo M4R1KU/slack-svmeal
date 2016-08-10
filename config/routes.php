@@ -44,13 +44,20 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
-    $routes->connect('/', ['controller' => 'Index', 'action' => 'display', 'index']);
+    $routes->connect('/', ['controller' => 'Index', 'action' => 'index']);
     $routes->fallbacks('DashedRoute');
 });
 
 Router::scope('/api/v1/', function ($routes) {
     $routes->extensions(['json']);
-    $routes->resources('Meal', ['only' => ['index', 'view']]);
+    $routes->resources('Meal', [
+        'map' => [
+            'index' => [
+                'action' => 'view',
+                'method' => 'POST'
+            ]
+        ]
+    ]);
 });
 
 /**

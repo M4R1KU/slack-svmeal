@@ -15,12 +15,8 @@ class MealController extends AppController {
                 $this->http = new Client();
         }
 
-        public function index() {
-                $this->setAction('view');
-        }
-
         public function view() {
-                $id = $this->request->params('text');
+                $id = $this->request->data['text'];
                 $url = 'https://svmeal-api.jmnw.me/api/restaurant/bit/meal/' . $id;
                 $response = $this->http->get($url);
                 if ($response->isOk() && $response->header('content-type') == 'application/json') {
