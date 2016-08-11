@@ -50,6 +50,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 Router::scope('/api/v1/', function ($routes) {
     $routes->extensions(['json']);
+    $routes->connect('/oauth', ['controller' => 'Oauth', 'action' => 'oauth']);
     $routes->resources('Meal', [
         'map' => [
             'index' => [
@@ -58,6 +59,7 @@ Router::scope('/api/v1/', function ($routes) {
             ]
         ]
     ]);
+    $routes->fallbacks('DashedRoute');
 });
 
 /**
