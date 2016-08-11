@@ -16,9 +16,10 @@ class MealController extends AppController {
         }
 
         public function view() {
-                $id = $this->request->data['text'];
-                $url = 'https://svmeal-api.jmnw.me/api/restaurant/bit/meal/' . $id;
-                $response = $this->http->get($url);
+            if ($this->request->is('post')) {
+                $text = $this->request->data('text');
+                $id = $text == null ? 0 : $text;
+                $response = $this->http->get('https://svmeal-api.jmnw.me/api/restaurant/bit/meal/' . $id);
                 if ($response->isOk() && $response->header('content-type') == 'application/json') {
                         $decodedJson = json_decode($response->body(), true);
 
@@ -26,14 +27,18 @@ class MealController extends AppController {
                                 throw new InternalErrorException();
                         }
                         $res = $this->makeSlackJson($decodedJson['data']);
-                        $text = $res['text'];
-                        $attachments = $res['attachments'];
-                        $this->set(compact('text', 'attachments'));
+                        $this->set([
+                            'text' => $res['text'],
+                            'attachments' => $res['attachments']
+                            ]);
                         $this->set('_serialize', ['text', 'attachments']);
 
                 } else {
                         throw new InternalErrorException();
                 }
+            } else {
+                throw new MethodNotAllowedException();
+            }
         }
 
         private function makeSlackJson($data) {
