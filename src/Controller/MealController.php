@@ -17,28 +17,39 @@ class MealController extends AppController {
 
         public function view() {
             if ($this->request->is('post')) {
+                $result = [];
                 $text = $this->request->data('text');
                 $id = $text == null ? 0 : $text;
-                $response = $this->http->get('https://svmeal-api.jmnw.me/api/restaurant/bit/meal/' . $id);
-                if ($response->isOk() && $response->header('content-type') == 'application/json') {
-                        $decodedJson = json_decode($response->body(), true);
 
-                        if ($decodedJson['status'] != 'Ok') {
+                $today = date('w');
+                if (($today != 6 || $today != 0) && $id >= 0 && $id <= (5 - $today)) {
+                    $response = $this->http->get('https://svmeal-api.jmnw.me/api/restaurant/bit/meal/' . $id);
+                    if ($response->isOk() && $response->header('content-type') == 'application/json') {
+                            $decodedJson = json_decode($response->body(), true);
+
+                            if ($decodedJson['status'] != 'Ok') {
                                 throw new InternalErrorException();
-                        }
-                        $res = $this->makeSlackJson($decodedJson['data']);
-                        $this->set([
-                            'text' => $res['text'],
-                            'attachments' => $res['attachments']
-                            ]);
-                        $this->set('_serialize', ['text', 'attachments']);
-
+                            }
+                            $result = $this->makeSlackJson($decodedJson['data']);
+                    } else {
+                            throw new InternalErrorException();
+                    }
                 } else {
-                        throw new InternalErrorException();
+                    $result['text'] = 'Der Tageswert ' . $id . ' ist nicht valide.';
+                    $result['attachments'][0] = [
+                            'title' => 'Heute valid:',
+                            'color' => '#FF0000',
+                            'text' => '0' . ($today != 5 ? ' - ' . (5 - $today) : '')
+                    ];
                 }
             } else {
                 throw new MethodNotAllowedException();
             }
+            $this->set([
+                'text' => $result['text'],
+                'attachments' => $result['attachments']
+                ]);
+            $this->set('_serialize', ['text', 'attachments']);
         }
 
         private function makeSlackJson($data) {
@@ -63,7 +74,7 @@ class MealController extends AppController {
                                 ]
                         ];
                 }
-                return ['text' => 'Angebot vom ' . $data['date'], 'attachments' => $attachments];
+                return ['text' => 'Angebot vom ' . date('d.m.Y', strtotime($data['date'])), 'attachments' => $attachments];
         }
 
 }
