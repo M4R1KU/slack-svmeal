@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Cake\Network\Exception\InternalErrorException;
+use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Http\Client;
 
 class MealController extends AppController {
@@ -45,6 +46,7 @@ class MealController extends AppController {
             } else {
                 throw new MethodNotAllowedException();
             }
+            $this->response->header('Access-Control-Allow-Origin', '*');
             $this->set([
                 'text' => $result['text'],
                 'attachments' => $result['attachments']
