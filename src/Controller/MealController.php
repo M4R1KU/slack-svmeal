@@ -88,7 +88,7 @@ class MealController extends AppController {
         private function makeSlackJson($data) {
                 $attachments = [];
                 foreach($data['offers'] as $key => $offer) {
-                        $fullMenu = implode(' ', $offer['trimmings']);
+                        $fullMenu = implode("\n", $offer['trimmings']);
 
                         $attachments[] = [
                                 'title' => $offer['description'],
