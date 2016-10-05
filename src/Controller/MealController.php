@@ -66,7 +66,7 @@ class MealController extends AppController {
                 // Since monday is one and friday is 5, this results in a linear decrease from four to zero
                 // throughout the week, which is what we want
                 $maxOffset = 5 - $currentWeekday;
-                return $offset <= $maxOffset;
+                return $offset >= 0 && $offset <= $maxOffset;
             }
         }
 
