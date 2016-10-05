@@ -19,7 +19,7 @@ class MealController extends AppController {
             if ($this->request->is('post')) {
                 $result = [];
                 $text = $this->request->data('text');
-                $offset = $text == null ? 0 : $text;
+                $offset = $text == null || $text < 0 ? 0 : $text;
 
                 if ($this->checkDayOffset($offset)) {
                     $response = $this->http->get('https://svmeal-api.jmnw.me/api/restaurant/bit/meal/' . $offset);
