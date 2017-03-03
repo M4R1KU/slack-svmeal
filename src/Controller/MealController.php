@@ -26,7 +26,7 @@ class MealController extends AppController
 
             if ($this->checkDayOffset($offset)) {
                 $response = $this->http->get('https://svmeal-api.jmnw.me/api/restaurant/bit/meal/' . $offset);
-                if ($response->isOk() && $response->header('content-type') == 'application/json') {
+                if ($response->isOk() & strpos($response->header('content-type'), 'application/json') === 0) {
                     $decodedJson = json_decode($response->body(), true);
 
                     if ($decodedJson['status'] != 'Ok') {
