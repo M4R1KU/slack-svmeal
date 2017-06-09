@@ -1,0 +1,6 @@
+slack:
+  client:
+    secret: 'fe7a300f99fd0aebcd246d0a9db94547'
+    id: '41523641968.67648964663'
+  oauth:
+    url: 'https://slack.com/api/oauth.access'

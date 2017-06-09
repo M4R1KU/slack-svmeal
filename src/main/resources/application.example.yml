@@ -1,0 +1,8 @@
+slack:
+  client:
+    secret:
+    id:
+  server:
+    token:
+  oauth:
+    url:
