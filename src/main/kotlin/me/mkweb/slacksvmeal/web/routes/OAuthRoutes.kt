@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.server.router
 @Configuration
 class OAuthRoutes(val oAuthHandler: OAuthHandler) {
     @Bean
-    fun oathRoutes() = router {
+    fun ouathRouter() = router {
         (accept(APPLICATION_JSON) and "/api/v1").nest {
             GET("/oauth", oAuthHandler::authorize)
         }

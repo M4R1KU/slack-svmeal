@@ -19,8 +19,12 @@ class OffsetUtil {
             return false
         }
 
-        fun getValidOffsets(start: LocalDate = LocalDate.now()) {
-            
+        fun getValidOffsets(start: LocalDate = LocalDate.now()): IntRange {
+            return IntRange(0, 1)
+        }
+
+        fun getDateByOffset(offset: Int): LocalDate {
+            return LocalDate.now().plusDays(offset.toLong())
         }
     }
 }

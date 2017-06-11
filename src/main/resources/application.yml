@@ -4,3 +4,6 @@ slack:
     id: '41523641968.67648964663'
   oauth:
     url: 'https://slack.com/api/oauth.access'
+svmeal:
+  api:
+    url: 'https://svmeal-api.jmnw.me/api'

@@ -21,11 +21,11 @@ import reactor.core.publisher.Mono
 class DefaultOAuthService(val restTemplate: RestTemplate) : OAuthService {
     val LOGGER: Logger = LoggerFactory.getLogger(DefaultOAuthService::class.java)
 
-    @Value("slack.client.id")
+    @Value("\${slack.client.id}")
     lateinit var clientId: String
-    @Value("slack.client.secret")
+    @Value("\${slack.client.secret}")
     lateinit var clientSecret: String
-    @Value("slack.oauth.url")
+    @Value("\${slack.oauth.url}")
     lateinit var slackOAuthUrl: String
 
     override fun authorize(code: String): Mono<String> {

@@ -1,7 +1,11 @@
 package me.mkweb.slacksvmeal.model.slack
 
+import me.mkweb.slacksvmeal.annotations.NoArg
+
 /**
  * @author Mario Kunz
  */
-data class SlackRequest(val token: String,
-                        val text: String)
+@NoArg
+data class SlackRequest(val token: String = "",
+                        val text: String = "") {
+}
