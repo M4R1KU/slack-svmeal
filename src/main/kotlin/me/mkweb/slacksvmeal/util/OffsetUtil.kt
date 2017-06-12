@@ -2,6 +2,7 @@ package me.mkweb.slacksvmeal.util
 
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * @author Mario Kunz
@@ -25,6 +26,10 @@ class OffsetUtil {
 
         fun getDateByOffset(offset: Int): LocalDate {
             return LocalDate.now().plusDays(offset.toLong())
+        }
+
+        fun getDateByOffsetString(offset: Int): String {
+            return getDateByOffset(offset).format(DateTimeFormatter.ofPattern("d MMM uuuu"))
         }
     }
 }

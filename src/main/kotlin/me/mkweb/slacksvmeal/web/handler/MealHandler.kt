@@ -30,7 +30,7 @@ class MealHandler(val mealService: MealService) {
                 .flatMap {
                     if (!isValidOffset(it)) {
                         val range: IntRange = getValidOffsets(LocalDate.now())
-                        Mono.just(ErrorMessage("Not a valid offset", listOf(ErrorAttachment("Use offset between $range"))))
+                        return@flatMap Mono.just(ErrorMessage("Not a valid offset", listOf(ErrorAttachment("Use offset between $range"))))
                     }
                     val colors = MealColor.values().toMutableList()
                     mealService.getMealOfOffset(it)
@@ -38,7 +38,11 @@ class MealHandler(val mealService: MealService) {
                                 meal.color = colors.removeAt(colors.size.minus(1)).color
                                 meal
                             }).collectList()
-                            .map { attachments -> SlackMessage("", attachments) }
+                            .map { attachments ->
+                                SlackMessage.Builder("Showing the meal of %s", it)
+                                        .addAttachments(attachments)
+                                        .build()
+                            }
                             .onErrorResume { ex -> ErrorMessage(attachments = listOf(ErrorAttachment(ex.message))).toMono() }
                 }, SlackMessage::class.java))
     }
