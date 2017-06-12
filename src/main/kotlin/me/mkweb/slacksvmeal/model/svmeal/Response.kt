@@ -1,10 +1,10 @@
 package me.mkweb.slacksvmeal.model.svmeal
 
-data class Response<T>(val status: Status,
-                       val data: T,
-                       val error: String) {
+data class Response<T>(val status: Status = Status.Unknown,
+                           val data: T? = null,
+                           val error: String? = "") {
 
     enum class Status {
-        OK, ERROR
+        Ok, Error, Unknown
     }
 }

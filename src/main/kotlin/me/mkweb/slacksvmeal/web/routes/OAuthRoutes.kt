@@ -3,6 +3,7 @@ package me.mkweb.slacksvmeal.web.routes
 import me.mkweb.slacksvmeal.web.handler.OAuthHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.web.reactive.function.server.router
 
@@ -11,9 +12,10 @@ import org.springframework.web.reactive.function.server.router
  */
 @Configuration
 class OAuthRoutes(val oAuthHandler: OAuthHandler) {
-    @Bean
+    //@Bean
     fun ouathRouter() = router {
-        (accept(APPLICATION_JSON) and "/api/v1").nest {
+        "/api/v1".nest {
+            accept(MediaType.APPLICATION_JSON)
             GET("/oauth", oAuthHandler::authorize)
         }
     }
