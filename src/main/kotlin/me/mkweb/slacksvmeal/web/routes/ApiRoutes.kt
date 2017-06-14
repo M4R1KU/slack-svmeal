@@ -13,8 +13,8 @@ import org.springframework.web.reactive.function.server.router
 class ApiRoutes(val mealHandler: MealHandler) {
     @Bean
     fun apiRouter() = router {
-        "/api/v1".nest {
-            (POST("/meal") and contentType(MediaType.APPLICATION_FORM_URLENCODED)).invoke(mealHandler::getMeal)
+        ("/api/v1" and contentType(MediaType.APPLICATION_FORM_URLENCODED)).nest {
+            POST("/meal", mealHandler::getMeal)
         }
     }
 }
