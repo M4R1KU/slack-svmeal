@@ -7,7 +7,3 @@ slack:
 svmeal:
   api:
     url: 'https://svmeal-api.jmnw.me/api'
-debug: true
-logging:
-  level:
-    org.springframework: DEBUG
