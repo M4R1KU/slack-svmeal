@@ -20,16 +20,10 @@ class OffsetUtil {
             return false
         }
 
-        fun getValidOffsets(start: LocalDate = LocalDate.now()): IntRange {
-            return IntRange(0, 1)
-        }
+        fun getValidOffsets(start: LocalDate = LocalDate.now()): IntRange = IntRange(0, 1) //TODO use params
 
-        fun getDateByOffset(offset: Int): LocalDate {
-            return LocalDate.now().plusDays(offset.toLong())
-        }
+        fun getDateByOffset(offset: Int): LocalDate = LocalDate.now().plusDays(offset.toLong())
 
-        fun getDateByOffsetString(offset: Int): String {
-            return getDateByOffset(offset).format(DateTimeFormatter.ofPattern("d MMM uuuu"))
-        }
+        fun getDateByOffsetString(offset: Int): String = getDateByOffset(offset).format(DateTimeFormatter.ofPattern("d MMM uuuu"))
     }
 }

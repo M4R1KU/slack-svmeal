@@ -23,27 +23,25 @@ import java.time.LocalDate
  */
 @Component
 class MealHandler(val mealService: MealService) {
-    fun getMeal(req: ServerRequest): Mono<ServerResponse> {
-        return ok().json().body(BodyInserters.fromPublisher(req.bodyToSlackRequestMono()
-                .map { it.text.toInt() }
-                .onErrorReturn({ it is NumberFormatException || it is NullPointerException }, 0)
-                .flatMap {
-                    if (!isValidOffset(it)) {
-                        val range: IntRange = getValidOffsets(LocalDate.now())
-                        return@flatMap Mono.just(ErrorMessage("Not a valid offset", listOf(ErrorAttachment("Use offset between $range"))))
-                    }
-                    val colors = MealColor.values().toMutableList()
-                    mealService.getMealOfOffset(it)
-                            .map({ meal ->
-                                meal.color = colors.removeAt(colors.size.minus(1)).color
-                                meal
-                            }).collectList()
-                            .map { attachments ->
-                                SlackMessage.Builder("Showing the meal of %s", it)
-                                        .addAttachments(attachments)
-                                        .build()
-                            }
-                            .onErrorResume { ex -> ErrorMessage(attachments = listOf(ErrorAttachment(ex.message))).toMono() }
-                }, SlackMessage::class.java))
-    }
+    fun getMeal(req: ServerRequest): Mono<ServerResponse> = ok().json().body(BodyInserters.fromPublisher(req.bodyToSlackRequestMono()
+            .map { it.text.toInt() }
+            .onErrorReturn({ it is NumberFormatException || it is NullPointerException }, 0)
+            .flatMap {
+                if (!isValidOffset(it)) {
+                    val range: IntRange = getValidOffsets(LocalDate.now())
+                    return@flatMap Mono.just(ErrorMessage("Not a valid offset", listOf(ErrorAttachment("Use offset between $range"))))
+                }
+                val colors = MealColor.values().toMutableList()
+                mealService.getMealOfOffset(it)
+                        .map({ meal ->
+                            meal.color = colors.removeAt(colors.size.minus(1)).color
+                            meal
+                        }).collectList()
+                        .map { attachments ->
+                            SlackMessage.Builder("Showing the meal of %s", it)
+                                    .addAttachments(attachments)
+                                    .build()
+                        }
+                        .onErrorResume { ex -> ErrorMessage(attachments = listOf(ErrorAttachment(ex.message))).toMono() }
+            }, SlackMessage::class.java))
 }

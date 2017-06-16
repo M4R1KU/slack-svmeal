@@ -18,14 +18,12 @@ import java.net.Proxy
 @Configuration
 open class AppConfig {
     @Bean
-    fun restTemplate(requestFactory: ClientHttpRequestFactory): RestTemplate {
-        return RestTemplateBuilder()
-                .additionalMessageConverters(listOf(
-                        StringHttpMessageConverter(),
-                        MappingJackson2HttpMessageConverter())
-                ).requestFactory(requestFactory)
-                .build()
-    }
+    fun restTemplate(requestFactory: ClientHttpRequestFactory): RestTemplate = RestTemplateBuilder()
+            .additionalMessageConverters(listOf(
+                    StringHttpMessageConverter(),
+                    MappingJackson2HttpMessageConverter())
+            ).requestFactory(requestFactory)
+            .build()
 
     @Bean
     @Profile("bit")
