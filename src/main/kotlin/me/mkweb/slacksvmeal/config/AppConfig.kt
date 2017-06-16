@@ -3,6 +3,7 @@ package me.mkweb.slacksvmeal.config
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.http.client.ClientHttpRequestFactory
 import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.http.converter.StringHttpMessageConverter
@@ -27,6 +28,7 @@ open class AppConfig {
     }
 
     @Bean
+    @Profile("bit")
     fun proxyRequestFactory(): ClientHttpRequestFactory {
         val factory = SimpleClientHttpRequestFactory()
         val proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress("proxy.efd.admin.ch", 8080))
