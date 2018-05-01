@@ -11,6 +11,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate
 import java.net.InetSocketAddress
 import java.net.Proxy
+import java.util.*
 
 /**
  * @author Mario Kunz
@@ -24,6 +25,10 @@ open class AppConfig {
                     MappingJackson2HttpMessageConverter())
             ).requestFactory(requestFactory)
             .build()
+
+    @Bean
+    @Profile("!bit")
+    fun requestFactory(): ClientHttpRequestFactory = SimpleClientHttpRequestFactory()
 
     @Bean
     @Profile("bit")
