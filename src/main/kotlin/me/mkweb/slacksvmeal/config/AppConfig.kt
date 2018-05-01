@@ -11,7 +11,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate
 import java.net.InetSocketAddress
 import java.net.Proxy
-import java.util.*
 
 /**
  * @author Mario Kunz
@@ -23,7 +22,7 @@ open class AppConfig {
             .additionalMessageConverters(listOf(
                     StringHttpMessageConverter(),
                     MappingJackson2HttpMessageConverter())
-            ).requestFactory(requestFactory)
+            ).requestFactory { requestFactory }
             .build()
 
     @Bean
